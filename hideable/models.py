@@ -27,9 +27,9 @@ class HideableManager(models.Manager):
 
 
 class Hideable(models.Model):
-    created_at = models.DateTimeField(default=now)
-    altered_at = models.DateTimeField()
-    deleted_at = models.DateTimeField(null=True)
+    created_at = models.DateTimeField(default=now, editable=False)
+    altered_at = models.DateTimeField(editable=False)
+    deleted_at = models.DateTimeField(null=True, editable=False)
 
     class Meta:
         abstract = True
