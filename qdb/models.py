@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from hideable.models import Hideable, HideableManager
 
 class QuoteManager(HideableManager):
@@ -21,8 +22,11 @@ class Quote(Hideable, models.Model):
     objects = QuoteManager()
 
 
+def check_score(score):
+    if abs(score) > 1:
+        raise ValidationError("Score must be in range [-1,1]")
+
 class Vote(Hideable, models.Model):
     ip = models.GenericIPAddressField()
     quote = models.ForeignKey(Quote)
-    score = models.SmallIntegerField()
-
+    score = models.SmallIntegerField(validators=[check_score])
