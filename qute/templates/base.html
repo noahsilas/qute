@@ -1,3 +1,4 @@
+{% load menu_support %}
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -42,9 +43,10 @@
           <a class="brand" href="#">QDB</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#top">Top</a></li>
-              <li><a href="#newest">Newest</a></li>
-              <li><a href="#about">About</a></li>
+              <li class="{% active request 'qdb:top'    %}{% active request 'home' %}"><a href="{% url home %}">Top</a></li>
+              <li class="{% active request 'qdb:new'    %}"><a href="{% url qdb:new %}">Newest</a></li>
+              <li class="{% active request 'qdb:submit' %}"><a href="#submit">Submit</a></li>
+              <li class="{% active request 'qdb:about'  %}"><a href="#about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
