@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'qdb.views.top_quotes', name='home'),
-    url(r'^qdb/vote$', 'qdb.views.cast_vote', name='vote'),
+    url(r'^qdb/', include('qdb.urls', namespace='qdb')),
+
 )

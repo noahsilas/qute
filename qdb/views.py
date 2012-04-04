@@ -26,6 +26,22 @@ def top_quotes(request):
     return render(request, 'qdb/quotes.html', context)
 
 
+@ensure_csrf_cookie
+def new_quotes(request):
+    page = request.GET.get('page', 1)
+    page -= 1   # convert page to zero indexing
+    page_size = 10
+
+    quotes = Quote.objects.active(
+                         ).with_scores(
+                         ).order_by('-created_at'
+                         )[page * page_size:(page + 1)*page_size]
+    context = {
+        'quotes': quotes,
+    }
+    return render(request, 'qdb/quotes.html', context)
+
+
 def cast_vote(request):
     vote = Vote(ip=get_ip(request))
     form = VoteForm(request.POST, instance=vote)
