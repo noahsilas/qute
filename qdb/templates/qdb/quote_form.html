@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
+{% block extra_head %}
+  <link rel="stylesheet" href="{{STATIC_URL}}css/qdb.css">
+{% endblock extra_head %}
+
 {% block content %}
-  <form method="POST" action="{% url qdb:submit %}">
+  <form method="POST" action="{% url qdb:submit %}" class="quoteform">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit">
+    <input type="submit" class="btn btn-primary">
   </form>
 {% endblock %}
