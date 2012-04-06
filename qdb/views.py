@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import ListView, CreateView
 from django.core.urlresolvers import reverse
+from django.utils.timezone import now
 from django.http import HttpResponse, HttpResponseBadRequest
 
 from qdb.models import Quote, Vote
@@ -33,11 +34,25 @@ class NewQuotesView(QuoteListView):
 
 
 def cast_vote(request):
-    vote = Vote(ip=get_ip(request))
+    ip = get_ip(request)
+
+    try:
+        quote_id = request.POST['quote']
+        day = now().replace(hour=0, minute=0, second=0, microsecond=0)
+        vote = Vote.objects.active().get(
+            ip=ip,
+            quote_id=quote_id,
+            created_at__gte=day
+        )
+    except Vote.DoesNotExist:
+        vote = Vote(ip=ip)
+    except Vote.MultipleObjectsReturned:
+        return HttpResponseBadRequest()
+
     form = VoteForm(request.POST, instance=vote)
     if form.is_valid():
         vote = form.save()
-        return HttpResponse()
+        return HttpResponse(vote.quote.get_score())
     return HttpResponseBadRequest()
 
 

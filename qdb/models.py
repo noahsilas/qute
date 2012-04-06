@@ -21,6 +21,13 @@ class Quote(Hideable, models.Model):
 
     objects = QuoteManager()
 
+    def get_score(self, refresh=False):
+        if hasattr(self, 'score') and not refresh:
+            return self.score
+        q = Quote.objects.with_scores().get(pk=self.pk)
+        self.score = q.score
+        return self.score
+
 
 def check_score(score):
     if abs(score) > 1:

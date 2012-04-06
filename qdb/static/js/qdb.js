@@ -46,7 +46,6 @@ QDB = (function($){
     function setup_votes(){
         function add_handler(selector, delta){
             $('ul').on('click', selector, function(evt){
-                console.log(evt);
                 var target = $(evt.target);
                 var quote_id = target.data('quote');
 
@@ -55,19 +54,19 @@ QDB = (function($){
                     { quote: quote_id,
                       score: delta
                     },
-                    function(data){
-                        adjust_vote(target, delta);
+                    function(score){
+                        adjust_vote(target, score);
                     }
                 );
             });
         }
         add_handler('.upvote', 1)
         add_handler('.downvote', -1)
+        add_handler('.novote', 0)
     }
 
-    function adjust_vote(target, delta){
+    function adjust_vote(target, score){
         container = target.parent().find('span');
-        score = parseInt(container.html(), 10) + delta;
         container.html(score);
         container.animate({backgroundColor: '#eaff00'}
                 ).delay(500
