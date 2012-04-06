@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, include, url
+from qdb.views import TopQuotesView, NewQuotesView
 
 urlpatterns = patterns('qdb.views',
-    url(r'^$', 'top_quotes', name='home'),
-    url(r'^top$', 'top_quotes', name='top'),
-    url(r'^new$', 'new_quotes', name='new'),
+    url(r'^$', TopQuotesView.as_view(), name='home'),
+    url(r'^top$', TopQuotesView.as_view(), name='top'),
+    url(r'^new$', NewQuotesView.as_view(), name='new'),
 
     url(r'^vote$', 'cast_vote', name='vote'),
 )

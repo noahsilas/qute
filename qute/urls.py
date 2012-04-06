@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from qdb.views import TopQuotesView
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -15,7 +16,6 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', 'qdb.views.top_quotes', name='home'),
+    url(r'^$', TopQuotesView.as_view(), name='home'),
     url(r'^qdb/', include('qdb.urls', namespace='qdb')),
-
 )
