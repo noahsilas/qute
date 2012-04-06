@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'hideable',
     'qdb',
+    'south',
     'support',
 )
 
