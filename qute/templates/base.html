@@ -45,7 +45,7 @@
             <ul class="nav">
               <li class="{% active request 'qdb:top'    %}{% active request 'home' %}"><a href="{% url home %}">Top</a></li>
               <li class="{% active request 'qdb:new'    %}"><a href="{% url qdb:new %}">Newest</a></li>
-              <li class="{% active request 'qdb:submit' %}"><a href="#submit">Submit</a></li>
+              <li class="{% active request 'qdb:submit' %}"><a href="{% url qdb:submit %}">Submit</a></li>
               <li class="{% active request 'qdb:about'  %}"><a href="#about">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
