@@ -1,15 +1,21 @@
 {% extends 'base.html' %}
 
+{% block extra_head %}
+  <link rel="stylesheet" href="{{STATIC_URL}}css/qdb.css">
+{% endblock extra_head %}
+
 {% block content %}
-  <ul>
+  <ul class="quote-list">
     {% for quote in quotes %}
     <li>
-      <span class="score" data-quote='{{quote.id}}'>
+      <div class="score" data-quote='{{quote.id}}'>
         <a href="#" class="upvote"   data-quote='{{quote.id}}'>&uarr;</a>
         <span class="novote"         data-quote='{{quote.id}}'>{{ quote.score|default:0 }}</span>
         <a href="#" class="downvote" data-quote='{{quote.id}}'>&darr;</a>
-      </span>
-      {{ quote.body }}
+      </div>
+      <blockquote>
+        {{ quote.body|linebreaks }}
+      </blockquote>
     </li>
     {% endfor %}
   </ul>
