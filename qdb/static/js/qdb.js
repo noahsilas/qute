@@ -46,6 +46,7 @@ QDB = (function($){
     function setup_votes(){
         function add_handler(selector, delta){
             $('ul').on('click', selector, function(evt){
+                evt.preventDefault();
                 var target = $(evt.target);
                 var quote_id = target.data('quote');
 
