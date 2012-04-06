@@ -46,7 +46,7 @@ class CreateQuoteView(CreateView):
     form_class = QuoteForm
 
     def get_success_url(self):
-        return reverse('qdb:new')
+        return reverse('qdb:newest')
 
     def get_form_kwargs(self):
         kwargs = super(CreateQuoteView, self).get_form_kwargs()
