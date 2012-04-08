@@ -1,0 +1,4 @@
+*.py[co]
+
+# local config lives in .env. Don't accidentally commit it.
+.env

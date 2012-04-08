@@ -1,13 +1,14 @@
 # Django settings for qute project.
 import os
+import re
 
-DEBUG = True
+DEBUG = (os.environ['DEBUG'] == 'true')
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
-
+_email_re = re.compile(r'"([^"]*)"<(.*)>')
+_admins = os.environ['ADMIN_EMAILS']
+_admins = [_email_re.match(admin) for admin in _admins.split(',')]
+ADMINS = tuple([admin.groups() for admin in _admins])
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -60,11 +61,11 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.environ['STATIC_ROOT']
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = os.environ['STATIC_URL']
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -83,7 +84,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '+yyb#jc$y7^%wo8%0sgzxe=65xgp#u=$yy7rqf(algj%8fq-y#'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
