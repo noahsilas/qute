@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'qdb',
     'south',
     'support',
+    'gunicorn',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
