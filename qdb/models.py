@@ -1,12 +1,13 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from hideable.models import Hideable, HideableManager
+from qdb.aggregates import DefaultSum
 
 class QuoteManager(HideableManager):
     class QuerySet(HideableManager.QuerySet):
         def with_scores(self):
             "Annotates this QS with the voting score"
-            return self.annotate(score=models.Sum('vote__score'))
+            return self.annotate(score=DefaultSum('vote__score', default=0))
 
     def get_query_set(self):
         return QuoteManager.QuerySet(self.model, using=self._db)
