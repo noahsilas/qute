@@ -6,37 +6,18 @@
 
 {% block content %}
   <ul class="quote-list">
-    {% for quote in quotes %}
     <li>
       <div class="score" data-quote='{{quote.id}}'>
         <a href="#" class="upvote"   data-quote='{{quote.id}}'>&uarr;</a>
         <span class="novote"         data-quote='{{quote.id}}'>{{ quote.score|default:0 }}</span>
         <a href="#" class="downvote" data-quote='{{quote.id}}'>&darr;</a>
-        <a href="{% url qdb:permalink quote.id %}" class="permalink">permalink</a>
       </div>
       <blockquote>
         {{ quote.body|linebreaks }}
       </blockquote>
     </li>
-    {% endfor %}
   </ul>
-
-  {% if page_obj and page_obj.has_other_pages %}
-    <ul class="pager">
-      {% if page_obj.has_previous %}
-        <li class="previous">
-        <a href="?page={{ page_obj.previous_page_number }}">&larr; Newer</a>
-        </li>
-      {% endif %}
-      {% if page_obj.has_next %}
-        <li class="next">
-        <a href="?page={{ page_obj.next_page_number }}">Older &rarr;</a>
-        </li>
-      {% endif %}
-    </ul>
-  {% endif %}
-
-{% endblock %}
+{% endblock content %}
 
 {% block scripts %}
 {{block.super}}

@@ -16,6 +16,15 @@
   font-size: 100%;
 }
 
+.quote-list li .permalink {
+    display: none;
+    margin-left: 10px;
+    font-size: 80%;
+}
+.quote-list li:hover .permalink {
+    display: inline-block;
+}
+
 .quoteform textarea {
   width: 60%;
   min-width: 300px;

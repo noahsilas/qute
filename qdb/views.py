@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from django.core.urlresolvers import reverse
 from django.utils.timezone import now
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -36,6 +36,14 @@ class NewQuotesView(QuoteListView):
     def get_queryset(self):
         qs = super(NewQuotesView, self).get_queryset()
         return qs.order_by('-created_at')
+
+
+class QuoteDetailView(DetailView):
+    queryset = Quote.objects.active().with_scores()
+
+    @method_decorator(ensure_csrf_cookie)
+    def dispatch(self, *args, **kwargs):
+        return super(QuoteDetailView, self).dispatch(*args, **kwargs)
 
 
 def cast_vote(request):
