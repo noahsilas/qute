@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.simple import direct_to_template
 from qdb.views import TopQuotesView
 
 # Uncomment the next two lines to enable the admin:
@@ -18,4 +19,5 @@ urlpatterns = patterns('',
 
     url(r'^$', TopQuotesView.as_view(), name='home'),
     url(r'^qdb/', include('qdb.urls', namespace='qdb')),
+    url(r'^about$', direct_to_template, {'template':'about.html'}, name='about'),
 )
