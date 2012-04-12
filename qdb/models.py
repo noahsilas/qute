@@ -29,6 +29,9 @@ class Quote(Hideable, models.Model):
         self.score = q.score
         return self.score
 
+    def __unicode__(self):
+        return unicode(self.id)
+
 
 def check_score(score):
     if abs(score) > 1:
@@ -38,3 +41,7 @@ class Vote(Hideable, models.Model):
     ip = models.GenericIPAddressField()
     quote = models.ForeignKey(Quote)
     score = models.SmallIntegerField(validators=[check_score])
+
+
+from django.contrib import admin
+admin.site.register(Quote)
