@@ -6,16 +6,7 @@
 
 {% block content %}
   <ul class="quote-list">
-    <li>
-      <div class="score" data-quote='{{quote.id}}'>
-        <a href="#" class="upvote"   data-quote='{{quote.id}}'>&uarr;</a>
-        <span class="novote"         data-quote='{{quote.id}}'>{{ quote.score|default:0 }}</span>
-        <a href="#" class="downvote" data-quote='{{quote.id}}'>&darr;</a>
-      </div>
-      <blockquote>
-        {{ quote.body|linebreaks }}
-      </blockquote>
-    </li>
+    {% include "qdb/_quote.html" %}
   </ul>
 {% endblock content %}
 

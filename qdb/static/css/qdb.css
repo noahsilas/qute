@@ -16,13 +16,21 @@
   font-size: 100%;
 }
 
+.quote-list li .mod,
 .quote-list li .permalink {
-    display: none;
-    margin-left: 10px;
-    font-size: 80%;
+  display: none;
+  margin-left: 10px;
+  margin-right: 10px;
 }
+.quote-list li:hover .mod,
 .quote-list li:hover .permalink {
-    display: inline-block;
+  display: inline-block;
+}
+.quote-list li .permalink {
+  font-size: 80%;
+}
+.quote-list li .mod {
+  float: right;
 }
 
 .quoteform textarea {

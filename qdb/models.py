@@ -32,6 +32,10 @@ class Quote(Hideable, models.Model):
     def __unicode__(self):
         return unicode(self.id)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('qdb:permalink', [self.pk])
+
 
 def check_score(score):
     if abs(score) > 1:

@@ -5,7 +5,7 @@
 {% endblock extra_head %}
 
 {% block content %}
-  <form method="POST" action="{% url qdb:submit %}" class="quoteform">
+  <form method="POST" class="quoteform">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="btn btn-primary">

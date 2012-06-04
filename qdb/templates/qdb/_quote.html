@@ -1,0 +1,27 @@
+<li>
+  {% if perms.qdb %}
+    <div class="mod">
+      {% if perms.qdb.change_quote %}
+        <a href="{% url qdb:edit_quote quote.id %}"
+          title="edit this quote">&#x270E;</a>
+      {% endif %}
+      {% if perms.qdb.delete_quote %}
+        <a href="{% url qdb:permalink quote.id %}"
+          data-method='DELETE'
+          title="delete this quote">&times;</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="score" data-quote='{{quote.id}}'>
+    <a href="#" class="upvote"   data-quote='{{quote.id}}'>&uarr;</a>
+    <span class="novote"         data-quote='{{quote.id}}'>{{ quote.score|default:0 }}</span>
+    <a href="#" class="downvote" data-quote='{{quote.id}}'>&darr;</a>
+    {% if show_permalink %}
+      <a href="{{ quote.get_absolute_url }}" class="permalink">permalink</a>
+    {% endif %}
+  </div>
+  <blockquote>
+    {{ quote.body|linebreaks }}
+  </blockquote>
+</li>

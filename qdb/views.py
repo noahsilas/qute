@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.generic import ListView, CreateView, DetailView
+from django.contrib.auth.decorators import permission_required
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic.edit import DeletionMixin
 from django.core.urlresolvers import reverse
 from django.utils.timezone import now
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, \
+    HttpResponseRedirect
 
 from qdb.models import Quote, Vote
 from qdb.forms import VoteForm, QuoteForm
@@ -17,6 +20,13 @@ def get_ip(request):
 class QuoteListView(ListView):
     context_object_name = 'quotes'
     paginate_by = 10
+
+    def get_context_data(self, *args, **kwargs):
+      context = {'show_permalink': True}
+      context.update(
+          super(QuoteListView, self).get_context_data(*args, **kwargs)
+      )
+      return context
 
     def get_queryset(self):
         return Quote.objects.active().with_scores()
@@ -38,12 +48,31 @@ class NewQuotesView(QuoteListView):
         return qs.order_by('-created_at')
 
 
-class QuoteDetailView(DetailView):
+class QuoteDetailView(DetailView, DeletionMixin):
     queryset = Quote.objects.active().with_scores()
+
+    def get_success_url(self):
+      return reverse('qdb:home')
 
     @method_decorator(ensure_csrf_cookie)
     def dispatch(self, *args, **kwargs):
         return super(QuoteDetailView, self).dispatch(*args, **kwargs)
+
+    @method_decorator(permission_required('qdb.delete_quote'))
+    def delete(self, request, *args, **kwargs):
+      self.object = self.get_object()
+      self.object.hide()
+      return HttpResponseRedirect(self.get_success_url())
+
+
+class QuoteEditView(UpdateView):
+    model = Quote
+    form_class = QuoteForm
+    queryset = Quote.objects.active().with_scores()
+
+    @method_decorator(ensure_csrf_cookie)
+    def dispatch(self, *args, **kwargs):
+        return super(QuoteEditView, self).dispatch(*args, **kwargs)
 
 
 def cast_vote(request):
