@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.utils.timezone import now
 from django.http import HttpResponse, HttpResponseBadRequest, \
     HttpResponseRedirect
+from django.contrib import messages
 
 from qdb.models import Quote, Vote
 from qdb.forms import VoteForm, QuoteForm
@@ -60,6 +61,7 @@ class QuoteDetailView(DetailView, DeletionMixin):
 
     @method_decorator(permission_required('qdb.delete_quote'))
     def delete(self, request, *args, **kwargs):
+      messages.success(request, 'Quote Deleted')
       self.object = self.get_object()
       self.object.hide()
       return HttpResponseRedirect(self.get_success_url())
